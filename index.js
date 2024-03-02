@@ -33,27 +33,27 @@ let posts = [
   },
 ];
 
-app.get("/post", (req, res) => {
+app.get("/", (req, res) => {
   //res.send("server running well");
   res.render("index.ejs", { posts });
 });
 
 //implement post
-app.get("/post/new", (req, res) => {
+app.get("/new", (req, res) => {
   res.render("new.ejs");
 });
 
-app.post("/post", (req, res) => {
+app.post("/", (req, res) => {
   let { username, content } = req.body;
   // console.log(req.body);
   let id = uuidv4();
   posts.push({ id, username, content });
-  res.redirect("/post");
+  res.redirect("/");
   res.send("post request working");
 });
 
 //show a particular post
-app.get("/post/:id", (req, res) => {
+app.get("/:id", (req, res) => {
   let { id } = req.params;
   // console.log(id);
   let post = posts.find((p) => id === p.id);
@@ -62,7 +62,7 @@ app.get("/post/:id", (req, res) => {
 });
 
 //to update a specific post
-app.patch("/post/:id", (req, res) => {
+app.patch("/:id", (req, res) => {
   let { id } = req.params;
   let newContent = req.body.content;
   let post = posts.find((p) => id === p.id);
@@ -71,20 +71,20 @@ app.patch("/post/:id", (req, res) => {
   // console.log(id);
   console.log(post);
   // res.send("patch request working ");
-  res.redirect("/post");
+  res.redirect("/");
 });
 
-app.get("/post/:id/edit", (req, res) => {
+app.get("/:id/edit", (req, res) => {
   let { id } = req.params;
   let post = posts.find((p) => id === p.id);
   res.render("edit.ejs", { post });
 });
 
-app.delete("/post/:id", (req, res) => {
+app.delete("/:id", (req, res) => {
   let { id } = req.params;
   posts = posts.filter((p) => id !== p.id);
   //res.send("delete success");
-  res.redirect("/post");
+  res.redirect("/");
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`);
